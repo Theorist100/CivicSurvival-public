@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <!-- Rank 4: Chaos Broker - Star with chevrons -->
+  <polygon points="12,2 14.5,9 22,9 16,14 18,21 12,17 6,21 8,14 2,9 9.5,9" opacity="0.9"/>
+  <path d="M12 17L6 21h12L12 17z" opacity="0.6"/>
+</svg>

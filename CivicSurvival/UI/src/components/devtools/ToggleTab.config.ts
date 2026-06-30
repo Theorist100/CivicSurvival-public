@@ -1,0 +1,50 @@
+export interface DomainDisplay {
+    name: string;
+    color: string;
+}
+
+export const DOMAIN_DISPLAY: Record<string, DomainDisplay> = {
+    "d:threatFlight": { name: "Flight", color: "#ff4444" },
+    "d:threatDamage": { name: "Impact", color: "#ff6644" },
+    "d:waves": { name: "Waves", color: "#ff6655" },
+    "d:threatUI": { name: "HUD", color: "#ff8866" },
+    "d:airDefense": { name: "Air Defense", color: "#ff6600" },
+    "d:intel": { name: "Intel", color: "#cc88ff" },
+    "d:spotters": { name: "Spotters", color: "#55aa99" },
+    "d:cognitive": { name: "Cognitive", color: "#9966ff" },
+    "d:engineering": { name: "Engineering", color: "#ff9900" },
+    "d:scenario": { name: "Scenario", color: "#ff6666" },
+    "d:corruption": { name: "Corruption", color: "#cc6600" },
+    "d:refugees": { name: "Refugees", color: "#33aa33" },
+    "d:powerGrid": { name: "Power Grid", color: "#0099cc" },
+    "d:powerBackup": { name: "Power Backup", color: "#0088aa" },
+    "d:attention": { name: "Attention", color: "#ff3366" },
+    "d:blackout": { name: "Blackout", color: "#e68a00" },
+    "d:diplomacy": { name: "Diplomacy", color: "#4488cc" },
+    "d:gridWarfare": { name: "Grid Warfare", color: "#cc3300" },
+    "d:mobilization": { name: "Mobilization", color: "#669933" },
+    "d:narrative": { name: "Narrative", color: "#8866cc" },
+    "d:economics": { name: "Economics", color: "#ccaa00" },
+    "d:finance": { name: "Finance", color: "#ccaa33" },
+    "d:shadowEconomy": { name: "Shadow Econ", color: "#996633" },
+    "d:network": { name: "Network", color: "#3399cc" },
+    "d:neighborEnvy": { name: "Neighbor Envy", color: "#99cc33" },
+    "d:notifications": { name: "Notifications", color: "#6699cc" },
+    "d:tutorial": { name: "Tutorial", color: "#669999" },
+    "d:countermeasures": { name: "Counterm.", color: "#88aa44" },
+    "t:render": { name: "Render", color: "#888888" },
+    "t:move": { name: "Move", color: "#888888" },
+    "t:obstacle": { name: "Obstacle", color: "#888888" },
+    "s:apply": { name: "Apply", color: "#888888" },
+    "s:collect": { name: "Collect", color: "#888888" },
+    "s:ballistic": { name: "Ballistic", color: "#888888" },
+    "s:radar": { name: "Radar", color: "#888888" },
+    movement: { name: "TMS", color: "#888888" },
+    damage: { name: "Damage", color: "#888888" },
+    opDamage: { name: "OpDmg", color: "#888888" },
+    droneSpawn: { name: "Spawn", color: "#888888" },
+    target: { name: "Target", color: "#888888" },
+    identify: { name: "Identify", color: "#888888" },
+};
+
+export const FALLBACK_DISPLAY: DomainDisplay = { name: "", color: "#888888" };

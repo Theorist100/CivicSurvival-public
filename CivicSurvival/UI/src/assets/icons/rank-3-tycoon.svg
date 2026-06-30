@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
+  <!-- Rank 3: Grid Tycoon - Triple chevron -->
+  <path d="M12 3L4 8h16L12 3z"/>
+  <path d="M12 8L4 13h16L12 8z" opacity="0.85"/>
+  <path d="M12 13L4 18h16L12 13z" opacity="0.7"/>
+</svg>

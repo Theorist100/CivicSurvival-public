@@ -1,0 +1,333 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <!-- CS2 Modding Toolchain - must be first -->
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.props" />
+
+    <!-- Path to the CS2 managed assemblies (Game.dll + Unity/Colossal/UnityEngine .dll), used by
+         the game-reference HintPaths below. Defaults to the install path the CS2 Modding Toolchain
+         already resolved into $(ManagedPath) (from CSII_MANAGEDPATH / Steam / Xbox), so the local
+         build is unchanged. A contributor whose game lives elsewhere can override without editing
+         this file: -p:GameManagedPath=... on the CLI, or by setting CSII_MANAGEDPATH. -->
+    <PropertyGroup>
+        <GameManagedPath Condition="'$(GameManagedPath)' == ''">$(ManagedPath)</GameManagedPath>
+    </PropertyGroup>
+
+    <PropertyGroup>
+        <!-- Mod information -->
+        <Title>Civic Survival</Title>
+        <Version>0.2.15</Version>
+        <Description>Infrastructure survival mod. Manage power grids, schedule outages, protect critical systems. One mod, two experiences.</Description>
+        <Authors>Theorist100</Authors>
+        <Copyright>Copyright © 2026 Theorist100</Copyright>
+
+        <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
+        <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+
+        <!-- Civic Burst toggle. Keep false for diagnostic builds: our jobs run as managed IL and
+             Unity.Logging sourcegen is not loaded, so it cannot emit WriteBursted* methods. -->
+        <EnableCivicBurst>false</EnableCivicBurst>
+        <DefineConstants Condition="'$(EnableCivicBurst)' == 'true'">$(DefineConstants);ENABLE_BURST</DefineConstants>
+        <!-- Test-build switch. Pass -p:CivicTestBuild=true (private test-listing builds only) to compile
+             the CIVIC_DIAG diagnostics and bake the test-listing version marker. Absent on a normal/prod
+             build → the preprocessor strips all #if CIVIC_DIAG blocks from the DLL (zero player-log noise)
+             and the version marker stays null/unlogged. One switch flips the whole test vs prod difference;
+             the source is identical either way. publish-test.ps1 passes it automatically. -->
+        <DefineConstants Condition="'$(CivicTestBuild)' == 'true'">$(DefineConstants);CIVIC_DIAG</DefineConstants>
+        <Nullable>enable</Nullable>
+        <NoWarn>$(NoWarn);CS8632</NoWarn>
+        <EnableNETAnalyzers>true</EnableNETAnalyzers>
+        <AnalysisLevel>latest-All</AnalysisLevel>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
+        <PublishConfigurationPath>Properties\PublishConfiguration.xml</PublishConfigurationPath>
+    </PropertyGroup>
+
+    <!-- Build date baked at compile time so Mod.BUILD_DATE has a real value. CS2 mods load from a
+         byte array (Assembly.Location is empty), so a file-timestamp can't be read at runtime; this
+         AssemblyMetadata attribute is read instead. yyyy-MM-dd granularity is stable within a day,
+         so it does not force spurious recompiles. -->
+    <ItemGroup>
+        <AssemblyMetadata Include="BuildDate" Value="$([System.DateTime]::UtcNow.ToString('yyyy-MM-dd'))" />
+        <!-- Test-listing version marker: baked only when -p:CivicTestModVersion=X.Y.Z is passed (private
+             test builds). The DLL AssemblyVersion stays the main csproj Version (shared with the public
+             mod), so this is the only place the test listing's own version reaches the runtime log (read
+             by Mod.cs under #if CIVIC_DIAG). Absent on a normal/prod build → no marker. -->
+        <AssemblyMetadata Include="CivicTestModVersion" Value="$(CivicTestModVersion)" Condition="'$(CivicTestModVersion)' != ''" />
+    </ItemGroup>
+
+    <!-- Localization files -->
+    <ItemGroup>
+        <EmbeddedResource Include="Localization\en-US.json" />
+        <EmbeddedResource Include="Localization\uk-UA.json" />
+    </ItemGroup>
+
+    <!-- Game References (UPDATED WITH HINT PATHS FOR RIDER) -->
+    <ItemGroup>
+        <Reference Include="Newtonsoft.Json"><Private>false</Private></Reference>
+        <Reference Include="System.IO.Compression"><Private>false</Private></Reference>
+
+        <!-- Main Game Logic -->
+        <Reference Include="Game">
+            <HintPath>$(GameManagedPath)\Game.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+
+        <!-- Unity ECS / DOTS -->
+        <Reference Include="Unity.Entities">
+            <HintPath>$(GameManagedPath)\Unity.Entities.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Collections">
+            <HintPath>$(GameManagedPath)\Unity.Collections.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Mathematics">
+            <HintPath>$(GameManagedPath)\Unity.Mathematics.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <Reference Include="Unity.Burst">
+            <HintPath>$(GameManagedPath)\Unity.Burst.dll</HintPath>
+            <Private>false</Private>
+        </Reference>
+        <!-- Unity.Logging: not shipped with CS2; compiled from com.unity.logging@1.2.1 via local Unity Editor.
+             Only loaded with Civic Burst because its sourcegen emits Burst AOT logging methods. -->
+        <Reference Include="Unity.Logging" Condition="'$(EnableCivicBurst)' == 'true'">
+            <HintPath>Libs\Unity.Logging.dll</HintPath>
+            <Private>true</Private>
+        </Reference>
+
+        <!-- Colossal Libraries -->
+        <Reference Include="Colossal.Collections"><Private>false</Private></Reference>
+        <Reference Include="Colossal.Core"><Private>false</Private></Reference>
+        <Reference Include="Colossal.Logging"><Private>false</Private></Reference>
+        <Reference Include="Colossal.IO.AssetDatabase"><Private>false</Private></Reference>
+        <Reference Include="Colossal.AssetPipeline"><Private>false</Private></Reference>
+        <Reference Include="Colossal.UI"><Private>false</Private></Reference>
+        <Reference Include="Colossal.UI.Binding"><Private>false</Private></Reference>
+        <Reference Include="Colossal.Localization"><Private>false</Private></Reference>
+        <Reference Include="Colossal.Serialization.Entities" Condition="Exists('$(GameManagedPath)\Colossal.Serialization.Entities.dll')"><Private>false</Private></Reference>
+        <Reference Include="Colossal.Mathematics"><Private>false</Private></Reference>
+        <Reference Include="Colossal.PSI.Common"><Private>false</Private></Reference>
+
+        <!-- Backtrace SDK (vanilla CS2): used by Core/Utils/BacktraceMarkers to write
+             phase attributes/breadcrumbs into crashpad minidumps for bootstrap SEGV triage. -->
+        <Reference Include="Backtrace.Unity"><Private>false</Private></Reference>
+
+        <!-- Unity Modules -->
+        <Reference Include="UnityEngine.CoreModule"><Private>false</Private></Reference>
+        <Reference Include="UnityEngine.AudioModule"><Private>false</Private></Reference>
+        <Reference Include="UnityEngine.UnityWebRequestModule"><Private>false</Private></Reference>
+        <Reference Include="UnityEngine.UnityWebRequestAudioModule"><Private>false</Private></Reference>
+        <Reference Include="UnityEngine.ParticleSystemModule"><Private>false</Private></Reference>
+        <Reference Include="UnityEngine.VFXModule"><Private>false</Private></Reference>
+        <!-- HDRP material API (HDMaterial.ValidateMaterial) — builds the additive-unlit tracer streak
+             material from code; same path vanilla OverlayRenderSystem uses. Game assemblies, not deployed. -->
+        <Reference Include="Unity.RenderPipelines.Core.Runtime"><HintPath>$(GameManagedPath)\Unity.RenderPipelines.Core.Runtime.dll</HintPath><Private>false</Private></Reference>
+        <Reference Include="Unity.RenderPipelines.HighDefinition.Runtime"><HintPath>$(GameManagedPath)\Unity.RenderPipelines.HighDefinition.Runtime.dll</HintPath><Private>false</Private></Reference>
+    </ItemGroup>
+
+    <!-- Unity.Logging source generator (emits Log.* API) — local analyzer DLLs from com.unity.logging@1.2.1 -->
+    <ItemGroup Condition="'$(EnableCivicBurst)' == 'true'">
+        <Analyzer Include="Libs\MainLoggingGenerator.dll" />
+        <Analyzer Include="Libs\LoggingCommon.dll" />
+    </ItemGroup>
+
+    <!-- Harmony for patching game systems -->
+    <ItemGroup>
+        <PackageReference Include="Lib.Harmony" Version="2.2.2" />
+    </ItemGroup>
+
+
+    <!-- Contracts (wire types). The CivicSurvival.Analyzers project is private and not
+         published in this public snapshot; its ProjectReference is removed here. -->
+    <ItemGroup>
+        <ProjectReference Include="..\CivicSurvival.Contracts\CivicSurvival.Contracts.csproj" />
+    </ItemGroup>
+
+    <!-- Static Analyzers -->
+    <ItemGroup>
+        <PackageReference Include="Roslynator.Analyzers" Version="4.12.9">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="SonarAnalyzer.CSharp" Version="10.4.0.108396">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Meziantou.Analyzer" Version="2.0.182">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.VisualStudio.Threading.Analyzers" Version="17.12.19">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="AsyncFixer" Version="1.6.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="ErrorProne.NET.CoreAnalyzers" Version="0.1.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
+
+    <!-- System references -->
+    <ItemGroup>
+        <Reference Update="System"><Private>false</Private></Reference>
+        <Reference Update="System.Core"><Private>false</Private></Reference>
+        <Reference Include="System.Security"><Private>false</Private></Reference>
+    </ItemGroup>
+
+    <!-- Build Configurations -->
+    <PropertyGroup Condition="'$(Configuration)'=='Uncensored'">
+        <DefineConstants>UNCENSORED</DefineConstants>
+        <Optimize>true</Optimize>
+    </PropertyGroup>
+
+    <!-- CS2 Modding Toolchain targets -->
+    <Import Project="$([System.Environment]::GetEnvironmentVariable('CSII_TOOLPATH', 'EnvironmentVariableTarget.User'))\Mod.targets" />
+
+    <!-- Dev builds: Burst-compile only for Windows (3x faster, fewer temp files) -->
+    <!-- Release/Uncensored builds still compile all 3 platforms -->
+    <Target Name="CustomModPostProcessorConfig" AfterTargets="ModPostProcessorConfig"
+            Condition="'$(Configuration)' != 'Release' AND '$(Configuration)' != 'Uncensored'">
+        <PropertyGroup>
+            <ModPostProcessorArgs>"$(ModPostProcessorFullPath)" PostProcess "$(TargetPath)" -u "$(UnityModProjectFullPath)" @(ReferencePath->'-r "%(Identity)"', ' ') -p Windows -d -v</ModPostProcessorArgs>
+        </PropertyGroup>
+    </Target>
+
+    <Target Name="ConfigureCivicBurstAotSettings" BeforeTargets="RunModPostProcessor"
+            Condition="'$(NeedBuild)' == 'true' AND Exists('$(UnityModProjectFullPath)\ProjectSettings\BurstAotSettings_StandaloneWindows.json')">
+        <PropertyGroup>
+            <CivicBurstAotSettingsPath>$(UnityModProjectFullPath)\ProjectSettings\BurstAotSettings_StandaloneWindows.json</CivicBurstAotSettingsPath>
+            <CivicBurstAotEnabled>false</CivicBurstAotEnabled>
+            <CivicBurstAotEnabled Condition="'$(EnableCivicBurst)' == 'true'">true</CivicBurstAotEnabled>
+        </PropertyGroup>
+        <Exec Command="powershell -NoProfile -ExecutionPolicy Bypass -Command &quot;$path='$(CivicBurstAotSettingsPath)'; $json=Get-Content -Raw -LiteralPath $path | ConvertFrom-Json; $json.MonoBehaviour.EnableBurstCompilation=[bool]::Parse('$(CivicBurstAotEnabled)'); $json | ConvertTo-Json -Depth 8 | Set-Content -LiteralPath $path -Encoding UTF8&quot;" />
+    </Target>
+
+    <Target Name="RunModPostProcessor" AfterTargets="AfterBuild" BeforeTargets="DeployWIP" Condition="'$(NeedBuild)'">
+        <Error Condition="!Exists('$(ModPostProcessorFullPath)')" Text="Post processor not found, please check the path: $(ModPostProcessorFullPath)" />
+        <Message Text="Run post processor: $(ModPostProcessorArgs)" Importance="high" />
+        <Exec Command="$(ModPostProcessorArgs)"
+              LogStandardErrorAsError="true"
+              Condition="'$(EnableCivicBurst)' == 'true'" />
+        <Exec Command="$(ModPostProcessorArgs)"
+              LogStandardErrorAsError="true"
+              EnvironmentVariables="UNITY_BURST_DISABLE_COMPILATION=1"
+              Condition="'$(EnableCivicBurst)' != 'true'" />
+    </Target>
+
+    <Target Name="RemoveCivicBurstNativeOutputs" AfterTargets="RunModPostProcessor" BeforeTargets="DeployWIP"
+            Condition="'$(NeedBuild)' == 'true' AND '$(EnableCivicBurst)' != 'true'">
+        <ItemGroup>
+            <CivicBurstNativeOutput Include="$(OutDir)\CivicSurvival_*_x86_64.dll" />
+            <CivicBurstNativeOutput Include="$(OutDir)\CivicSurvival_*_x86_64.pdb" />
+            <CivicBurstNativeOutput Include="$(OutDir)\Temp\CivicSurvival_*_x86_64.dll" />
+            <CivicBurstNativeOutput Include="$(OutDir)\Temp\CivicSurvival_*_x86_64.pdb" />
+        </ItemGroup>
+        <Delete Files="@(CivicBurstNativeOutput)" />
+    </Target>
+
+    <!-- Debug symbols must never reach subscribers: the managed compiler emits CivicSurvival.pdb +
+         CivicSurvival.Contracts.pdb and Burst AOT emits CivicSurvival_*_x86_64.pdb, all of which
+         DeployWIP copies into the mod folder ModPublisher packs (the release preflight forbids any
+         .pdb there — it would leak source-line info and bloat the download). Strip every .pdb from
+         the deployed folder AFTER deploy, leaving the symbols in OutDir intact for local crash
+         triage (native Burst dumps symbolicate against the OutDir win pdb). Release only: Debug
+         builds keep the .pdb next to the deployed DLL so a debugger can attach to the live game. -->
+    <Target Name="StripPdbFromDeployedMod" AfterTargets="DeployWIP"
+            Condition="'$(NeedBuild)' == 'true' AND '$(Configuration)' == 'Release'">
+        <ItemGroup>
+            <DeployedPdb Include="$(ModsFolder)\**\*.pdb" />
+        </ItemGroup>
+        <Delete Files="@(DeployedPdb)" />
+        <Message Importance="high" Text="Stripped @(DeployedPdb->Count()) .pdb file(s) from deployed mod folder" />
+    </Target>
+
+    <!-- Civic Burst pulls Unity.Logging as a private (copy-local) reference, and MSBuild resolves its
+         dependency closure to in-game assemblies that already live in Cities2_Data\Managed. Shipping a
+         second copy in the mod folder makes the CS2 loader register duplicate type identities, which
+         crashes Unity.Entities.TypeManager (GatherSharedComponentMethods NRE) and kills mod init for us
+         and every other ECS mod loaded after us. Drop these from copy-local so they never reach OutDir;
+         the game's own copies satisfy Unity.Logging at runtime. -->
+    <Target Name="ExcludeInGameAssembliesFromOutput" AfterTargets="ResolveAssemblyReferences">
+        <ItemGroup>
+            <ReferenceCopyLocalPaths Remove="@(ReferenceCopyLocalPaths)"
+                Condition="'%(FileName)' == 'netstandard'
+                        OR '%(FileName)' == 'Unity.Burst.Unsafe'
+                        OR '%(FileName)' == 'Unity.Collections.LowLevel.ILSupport'
+                        OR '%(FileName)' == 'UnityEngine.PropertiesModule'
+                        OR '%(FileName)' == 'UnityEngine.SharedInternalsModule'" />
+        </ItemGroup>
+    </Target>
+
+    <!-- Paths -->
+    <PropertyGroup>
+        <CSII_UserDataPath>$(LOCALAPPDATA)Low\Colossal Order\Cities Skylines II</CSII_UserDataPath>
+        <ModsFolder>$(CSII_UserDataPath)\Mods\CivicSurvival</ModsFolder>
+    </PropertyGroup>
+
+    <!-- UI source files for incremental build -->
+    <ItemGroup>
+        <UISourceFiles Include="$(ProjectDir)UI\src\**\*.tsx;$(ProjectDir)UI\src\**\*.ts;$(ProjectDir)UI\src\**\*.scss;$(ProjectDir)UI\src\**\*.css" />
+        <UIConfigFiles Include="$(ProjectDir)UI\mod.json;$(ProjectDir)UI\package.json;$(ProjectDir)UI\webpack.config.js;$(ProjectDir)UI\tsconfig.json" />
+    </ItemGroup>
+
+    <!-- UI Build + Lint + TypeCheck: always runs (no incremental) -->
+    <!-- Skip with: dotnet build -p:SkipUIBuild=true -->
+    <Target Name="BuildUI" BeforeTargets="Build"
+            Condition="'$(SkipUIBuild)' != 'true'">
+        <!-- DevUI=true → dev bundle WITH the debug panel (npm run build:dev).
+             Default (no flag) → production bundle, debug panel stripped (npm run build).
+             Both are full builds that emit the UI bundle into Mods, so neither leaves
+             Mods without UI. Use: dotnet build -p:DevUI=true for the panel. -->
+        <Message Importance="high" Condition="'$(DevUI)' == 'true'" Text="Building UI (npm run build:dev — debug panel INCLUDED)..." />
+        <Message Importance="high" Condition="'$(DevUI)' != 'true'" Text="Building UI (npm run build — production)..." />
+        <Exec Command="npm run build:dev"
+              Condition="'$(DevUI)' == 'true'"
+              WorkingDirectory="$(ProjectDir)UI"
+              EnvironmentVariables="CSII_USERDATAPATH=$(CSII_UserDataPath)" />
+        <Exec Command="npm run build"
+              Condition="'$(DevUI)' != 'true'"
+              WorkingDirectory="$(ProjectDir)UI"
+              EnvironmentVariables="CSII_USERDATAPATH=$(CSII_UserDataPath)" />
+        <Message Importance="high" Text="UI build complete. Running checks..." />
+        <Exec Command="npx tsc --noEmit"
+              WorkingDirectory="$(ProjectDir)UI" />
+        <Exec Command="npx eslint src/"
+              WorkingDirectory="$(ProjectDir)UI" />
+        <Message Importance="high" Text="UI checks passed" />
+    </Target>
+
+    <!-- Define file lists outside Target for proper evaluation -->
+    <ItemGroup>
+        <AudioFiles Include="$(ProjectDir)..\Assets\Audio\*.ogg" />
+        <AudioFiles Include="$(ProjectDir)..\Assets\Audio\*.mp3" />
+        <AudioFiles Include="$(ProjectDir)..\Assets\Audio\*.wav" />
+        <ConfigFiles Include="$(ProjectDir)Config\balance_config.json" />
+        <!-- Tracer.cok excluded: tracers render procedurally (TracerRenderSystem builds a shared
+             cylinder mesh via Graphics.RenderMesh), the .cok is unused. Kept in Assets\Models for a
+             possible return to a mesh-based tracer, but not shipped to players. -->
+        <AssetPackages Include="$(ProjectDir)..\Assets\Models\*.cok" Exclude="$(ProjectDir)..\Assets\Models\Tracer.cok" />
+        <ContractAssemblies Include="$(TargetDir)CivicSurvival.Contracts.dll" />
+    </ItemGroup>
+
+    <!-- ModData path for config files -->
+    <PropertyGroup>
+        <ModDataFolder>$(CSII_UserDataPath)\ModData\CivicSurvival</ModDataFolder>
+    </PropertyGroup>
+
+    <Target Name="CopyAssetsToMod" AfterTargets="Build">
+        <MakeDir Directories="$(ModsFolder)\audio" />
+        <MakeDir Directories="$(ModDataFolder)" />
+        <Copy SourceFiles="@(AudioFiles)" DestinationFolder="$(ModsFolder)\audio" SkipUnchangedFiles="true" />
+        <!-- .cok files MUST be in mod root, NOT in Assets subfolder (CS2 requirement) -->
+        <Copy SourceFiles="@(AssetPackages)" DestinationFolder="$(ModsFolder)" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(ContractAssemblies)" DestinationFolder="$(ModsFolder)" SkipUnchangedFiles="true" />
+        <Copy SourceFiles="@(ConfigFiles)" DestinationFolder="$(ModDataFolder)" SkipUnchangedFiles="true" />
+        <Message Importance="high" Text="✅ Assets copied: audio + 3D assets + config (icons deployed by webpack to cs-icons/)" />
+    </Target>
+
+</Project>

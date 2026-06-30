@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "jsx": "react",
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "isolatedModules": true,
+    "strict": true,
+    "noUncheckedIndexedAccess": true,
+    "exactOptionalPropertyTypes": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "noEmit": true,
+    "typeRoots": ["./types"],
+    "resolveJsonModule": true,
+    "paths": {
+      "mod.json": ["./mod.json"],
+      "localization/*": ["../Localization/*"],
+      "@components/*": ["./src/components/*"],
+      "@hooks/*": ["./src/hooks/*"],
+      "@themes": ["./src/themes/index.tsx"],
+      "@themes/*": ["./src/themes/*"],
+      "@types/*": ["./src/types/*"],
+      "@utils/*": ["./src/utils/*"],
+      "@locales": ["./src/locales/index.ts"],
+      "@coherent": ["./src/components/coherent/index.ts"],
+      "@shared/*": ["./src/components/shared/*"],
+      "components/*": ["./src/components/*"],
+      "hooks/*": ["./src/hooks/*"],
+      "themes": ["./src/themes/index.tsx"],
+      "themes/*": ["./src/themes/*"],
+      "types": ["./src/types/index.ts"],
+      "types/*": ["./src/types/*"],
+      "utils/*": ["./src/utils/*"],
+      "constants/*": ["./src/constants/*"],
+      "services/*": ["./src/services/*"]
+    }
+  }
+}

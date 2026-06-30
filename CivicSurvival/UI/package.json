@@ -1,0 +1,66 @@
+{
+  "engines": {
+    "node": ">=20.10.0"
+  },
+  "scripts": {
+    "prebuild": "npm run check:contracts && node ../../Tools/check-modal-visibility-contract.js && node ../../Tools/check-coherent-barrel.js && node ../../Tools/check-tab-feature-aggregation.js && node ../../Tools/check-dto-eligibility-coverage.js && node ../../Tools/check-dto-coverage.js --strict && node ../../Tools/check-l10n-coverage.js --strict && npm run typecheck:declarations && npm run test:lint-rules && npm run test:ui && npm run lint:strict",
+    "build": "webpack --mode production",
+    "build:dev": "webpack --mode development",
+    "regen:contracts": "python ../../scripts/generate.py && node ../../Tools/generate-binding-manifest.js --fail-on-warnings && node ../../Tools/sync-binding-codegen.js",
+    "check:contracts": "python ../../scripts/contract_check.py && node ../../Tools/generate-binding-manifest.js --check --fail-on-warnings && node ../../Tools/sync-binding-codegen.js --check",
+    "bundle:baseline": "node ../../Tools/collect-ui-bundle-baseline.js --write",
+    "bundle:check": "node ../../Tools/collect-ui-bundle-baseline.js --check --threshold=10",
+    "dev": "webpack --mode development --watch",
+    "update": "npx create-csii-ui-mod update",
+    "clean": "npx create-csii-ui-mod clean",
+    "typecheck:declarations": "tsc -p types/tsconfig.declarations.json",
+    "test:lint-rules": "node --test eslint-rules/__tests__/*.test.js",
+    "test:ui": "vitest run",
+    "lint": "eslint src/",
+    "lint:strict": "eslint src/ --max-warnings 0",
+    "lint:fix": "eslint src/ --fix"
+  },
+  "exclude": [
+    "node_modules",
+    "build"
+  ],
+  "dependencies": {
+    "@sentry/react": "^10.52.0",
+    "classnames": "2.3.2",
+    "react": "18.3.1",
+    "react-dom": "18.3.1"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "@sentry/webpack-plugin": "^5.2.1",
+    "@testing-library/react": "^16.3.2",
+    "@types/react": "18.0.26",
+    "@types/react-dom": "18.0.9",
+    "brace-expansion": "^1.1.14",
+    "copy-webpack-plugin": "^14.0.0",
+    "css-loader": "6.7.2",
+    "dotenv": "^17.4.2",
+    "eslint": "^9.39.2",
+    "eslint-plugin-import": "^2.32.0",
+    "eslint-plugin-react": "^7.37.5",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-sonarjs": "^4.0.0",
+    "eslint-plugin-unicorn": "^63.0.0",
+    "globals": "^17.3.0",
+    "jsdom": "^29.1.1",
+    "mini-css-extract-plugin": "2.7.0",
+    "minimatch": "^3.1.5",
+    "sass": "^1.69.5",
+    "sass-loader": "13.2.0",
+    "style-loader": "^3.3.3",
+    "swc-loader": "0.2.3",
+    "terser-webpack-plugin": "^5.3.10",
+    "ts-loader": "^9.5.1",
+    "tsconfig-paths-webpack-plugin": "^4.1.0",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.55.0",
+    "vitest": "^4.1.6",
+    "webpack": "^5.106.2",
+    "webpack-cli": "4.10.0"
+  }
+}

@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Publish>
+  <ModId Value="147665" />
+  <DisplayName Value="Civic Survival [BETA]" />
+  <ShortDescription Value="Early beta (Phase 1): rolling blackouts, drone waves, air defense, mobilization. Corruption, diplomacy and shadow economy arrive in later phases." />
+  <LongDescription>## Civic Survival — Early Public Beta
+
+Transform your city into an infrastructure survival challenge: keep the power grid alive, defend against drone and missile attacks, and mobilize your crews under pressure.
+
+### ⚠️ This is an early beta
+
+This is an early wave of the beta. This release ships **Phase 1 of 4** — the core grid + threats + defense loop; everything else unlocks in later beta phases. Expect bugs and rough edges — some systems may not yet work the way you'd expect. We're starting small and improving the mod actively. Bug reports and feedback are hugely welcome.
+
+### Available now — Beta Phase 1
+
+- **Threat waves** — Shahed drones and ballistic missiles attack in escalating waves, hunting your power plants, substations, and key buildings. Waves scale with your city, so the bigger you grow, the harder you are hit.
+- **War damage and fire** — Hits cause real destruction: buildings take damage, catch fire, and can be lost entirely. You rebuild and repair while still under attack.
+- **Air defense** — Place AA positions (Gepard, Bofors, Patriot), crew them, and run an ammunition economy where every interception spends supply you must keep buying. Position and coverage decide what gets through.
+- **Rolling blackouts** — Power becomes something you ration. Schedule outages district by district (4 hours on, 4 off, daytime, manual) to stretch a failing grid and choose who goes dark when supply cannot meet demand.
+- **Backup power** — Keep critical buildings alive through outages and grid failure with generators and batteries.
+- **Mobilization** — Conscript manpower from your population to crew air defenses, weighed against the workforce your economy still needs.
+- **Spotters and intel** — Buy reconnaissance to see threats sooner, identify what is incoming, and react before impact.
+- **Economy and finance** — Pay for defenses, repairs, and relief from a strained wartime budget; overspend and debt and crisis costs spiral.
+- **Refugees** — Displaced households arrive during the crisis. Shelter them, integrate them into the city, and cover their support costs, or face a humanitarian failure.
+- **News and narrative** — A reactive news and narrative feed responds to your decisions and the state of the war as the city fights to survive.
+- **Tutorial** — Guided onboarding through the grid, threats, and defense loop.
+
+### Coming in later beta phases
+
+Opened gradually as Phase 1 stabilizes — pace set by bug reports, not a calendar:
+
+Phase 2:
+
+- corruption, anti-corruption countermeasures, international diplomacy
+- shadow economy, cognitive / information warfare
+- neighbor relations
+
+Phase 3:
+
+- offensive Grid Warfare
+
+Mod v2:
+
+- competitive PvP arena
+
+### ⚙️ Running other mods
+
+Civic Survival is a total overhaul: it runs its own simulation of power, economy, population, threats, and the narrative on top of the base game. Any mod that changes one of those same systems will override or fight Civic Survival's logic, so that part behaves wrong. Anything that does not touch those systems combines fine.
+
+**Safe to combine — Civic Survival does not simulate these:**
+
+- Traffic, roads, public transport, and pathfinding
+- Zoning, land value, and signature buildings
+- Visuals: graphics, lighting, LUTs, props, trees, and detailing
+- Maps and terrain
+- Audio — adds its own sounds but does not replace the base audio
+- Camera, screenshots, photo mode, and UI / quality-of-life tools (Move It, Find It, and similar)
+
+**Avoid — these are the systems Civic Survival simulates:**
+
+- Electricity and the power grid
+- Economy, money, and budget
+- Population, households, and migration
+- Citizen wellbeing, happiness, and city services
+- Buildings: damage, destruction, disasters, and hazards
+- Difficulty and game balance
+
+If a Civic Survival system behaves strangely, disable the mods that touch that system and reload. The in-game **Send mod list** button in the settings lets us check your setup.
+
+### 🔍 Known Issues
+
+🛑 Crashes to desktop: Rare crashes can still happen, most often during heavy attacks, at high game speed, or when focusing the camera on a threat. We fix these as fast as we can find them, and stability keeps improving with every release. If you hit a crash, please report it on Discord with your save — it directly helps us pin down the cause.
+
+🐢 Performance: Civic Survival adds a lot of simulation on top of the base game, so it runs best on a mid-range or better machine. Large cities and intense waves at high speed are the most demanding, and we keep optimizing every release. On lower-end setups (around 4 GB of VRAM), smaller cities and a slower game speed keep things smooth.
+
+### Help us improve — please keep telemetry on
+
+We're a tiny team (one developer + AI assistants) testing a large, brand-new codebase. Anonymous telemetry is our main way to find bugs and balance problems, so if you'd like to help, please enable it in the mod settings.
+
+Telemetry is **opt-in and off by default**. When you turn it on, here is exactly what we collect:
+
+- An anonymous session / player ID — **no name, no email, no personal data**
+- Gameplay events: threat waves and intercepts, blackouts and grid state, mobilization, economy, scenario progress, and an end-of-session summary
+- Performance metrics (FPS, memory) sampled about once a minute
+- Crash reports
+- Mod and game version
+
+We never collect anything that identifies you personally. Leaving telemetry on directly helps us prioritize fixes.
+
+### Found a bug? Join our Discord
+
+The fastest way to report bugs, share feedback, and shape what gets fixed first: https://discord.gg/yg4G2rVrd (also available via the in-game Roadmap panel).
+
+### 💾 Save policy
+
+- **Not version-stable during the beta.** We **do not guarantee save compatibility between versions.** A save made in one version may fail to load or behave unexpectedly after an update. Treat beta saves as disposable until v1.0.
+- **Your saves depend on the mod.** Civic Survival is a full gameplay overhaul, not a tweak — your active crisis (threats, war damage, air defenses, grid and economy state) is stored inside the save. If you remove the mod, the city still loads as a plain vanilla save, but everything Civic Survival added is dropped. Keep the mod installed to keep playing a save you started with it.
+
+### Languages
+
+English and Ukrainian. The Ukrainian build carries a realistic crisis context with localized satire; English stays a neutral infrastructure simulation.
+
+*Inspired by real-world infrastructure resilience challenges.*</LongDescription>
+  <Thumbnail Value="Properties/thumbnail.png" />
+  <Screenshot Value="Properties/screenshots/screenshot_01.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_02.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_03.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_04.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_05.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_06.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_07.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_08.jpg" />
+  <ModVersion Value="0.2.15" />
+  <GameVersion Value="*" />
+  <AccessLevel Value="Public" />
+  <Tag Value="Code Mod" />
+  <ChangeLog>v0.2.15 — Fixes and tweaks
+- Demolishing an air defense position now refunds part of its cost and returns its crew, matching the base game's bulldoze refund.
+- Air defenses retarget correctly after being relocated.
+- Power plants no longer offer repair when they have no wear.
+- Further reliability work on mod content loading for new subscribers.</ChangeLog>
+  <ExternalLink Type="github" Url="https://github.com/Theorist100/CivicSurvival-public" />
+  <ExternalLink Type="discord" Url="https://discord.gg/yg4G2rVrd" />
+</Publish>

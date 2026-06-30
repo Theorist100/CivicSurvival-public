@@ -1,0 +1,32 @@
+================================================================================
+AUDIO CREDITS - Civic Survival Mod
+================================================================================
+
+Audio files used in this mod. Only sounds without CS2 native equivalent.
+
+NOTE: Siren and explosion sounds now use native CS2 SFX:
+- EarlyDisasterWarningLoopSFX (air raid siren)
+- BuildingCollapseSFX + LightningSFX (explosion combo)
+
+--------------------------------------------------------------------------------
+1. Drone sound in the night.ogg (Shahed drone engine buzz)
+--------------------------------------------------------------------------------
+Source: Pixabay
+Author: Unknown
+License: Pixabay License (free for commercial use)
+URL: https://pixabay.com/
+
+--------------------------------------------------------------------------------
+2. aa_fire.ogg (anti-aircraft gunfire)
+--------------------------------------------------------------------------------
+Source: OpenGameArt.org - "100 CC0 SFX" pack
+Author: rubberduck
+License: CC0 (Public Domain)
+URL: https://opengameart.org/content/100-cc0-sfx
+
+================================================================================
+LICENSE SUMMARY
+================================================================================
+All remaining audio files are CC0 (Public Domain) - no attribution required.
+
+================================================================================

@@ -1,0 +1,13 @@
+{
+  "compilerOptions": {
+    "noEmit": true,
+    "skipLibCheck": false,
+    "strict": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "types": ["react"],
+    "lib": ["es2020", "dom"],
+    "jsx": "react"
+  },
+  "include": ["*.d.ts"]
+}

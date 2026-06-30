@@ -1,0 +1,30 @@
+# Public .gitignore for the Civic Survival client source snapshot.
+# (Snapshot script renames this file to .gitignore in the public repo.)
+
+# Build output
+bin/
+obj/
+Library/
+dist/
+
+# Node / UI
+node_modules/
+
+# Secrets — environment files are never committed (the .env.example template IS).
+*.env
+!.env.example
+!*/.env.example
+
+# Vendored binaries (e.g. Unity.Logging) are not redistributed in the public repo.
+Libs/*.dll
+
+# Debug symbols / source maps must never reach the public repo.
+*.pdb
+*.map
+
+# Publish thumbnail (pulled from a separate assets repo at release time).
+thumbnail.png
+
+# IDE
+.vs/
+.idea/

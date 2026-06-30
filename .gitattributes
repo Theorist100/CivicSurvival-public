@@ -1,0 +1,27 @@
+# Cross-platform determinism for generated + contract artifacts.
+#
+# Without this, a Windows checkout (CRLF working tree) vs the Linux CI runner
+# (LF) makes contract_check.py diverge: SourceHash and the byte-for-byte
+# comparison of generated files differ per platform, so `contract-gates`
+# fails with "stale SourceHash" / "OUT OF DATE" even though the content is
+# logically identical.
+#
+# SourceHash is additionally EOL-normalized in scripts/_lib/provenance.py and
+# the Python generators write LF explicitly (newline="\n"); these rules are
+# defense-in-depth so the working tree itself stays LF on every platform.
+
+*.g.cs                                    text eol=lf
+*.generated.ts                            text eol=lf
+*.generated.cs                            text eol=lf
+Tools/binding-manifest.generated.json     text eol=lf
+Docs/Contracts/*.contract.yaml            text eol=lf
+Docs/Contracts/*.fields.generated.md      text eol=lf
+Docs/Contracts/*.gates.generated.json     text eol=lf
+Docs/Contracts/*.schema.json              text eol=lf
+CivicSurvival/Config/balance_config.json  text eol=lf
+CivicServer/config/balance_config.json    text eol=lf
+CivicServer/app/models/*_g.py             text eol=lf
+CivicServer/app/models/balance_generated.py text eol=lf
+CivicServer/app/adapters/events_g.py      text eol=lf
+CivicServer/app/contracts/current.py      text eol=lf
+Shared/telemetry_schema.json              text eol=lf
