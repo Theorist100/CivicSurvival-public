@@ -1,0 +1,385 @@
+# EditorConfig for CivicSurvival
+root = true
+
+[*.cs]
+# ============================================
+# GLOBAL SUPPRESSIONS - Code Style (not bugs)
+# ============================================
+
+# CA1707: Identifiers should not contain underscores
+# Reason: m_Field naming convention is standard in Unity/CS2
+dotnet_diagnostic.CA1707.severity = none
+
+# CA1805: Do not initialize unnecessarily
+# Reason: Explicit initialization improves readability
+dotnet_diagnostic.CA1805.severity = none
+
+# CA1033: Interface methods should be callable by child types
+# Reason: Explicit interface implementation is intentional design choice
+dotnet_diagnostic.CA1033.severity = none
+
+# CA1024: Use properties where appropriate
+# Reason: GetX() methods are fine, not everything needs to be a property
+dotnet_diagnostic.CA1024.severity = none
+
+# CA1034: Nested types should not be visible
+# Reason: Nested types are used intentionally for organization
+dotnet_diagnostic.CA1034.severity = none
+
+# CA1724: Type names should not match namespaces
+# Reason: Engine.PowerGrid, Engine.Threats etc. are intentional
+dotnet_diagnostic.CA1724.severity = none
+
+# CA1310/CA1305: Specify StringComparison/IFormatProvider
+# Reason: Game mod, not internationalized software
+dotnet_diagnostic.CA1310.severity = none
+dotnet_diagnostic.CA1305.severity = none
+
+# S1168: Return empty collection instead of null
+# Reason: False positive for NativeContainer value types (default struct with IsCreated=false is not null)
+dotnet_diagnostic.S1168.severity = none
+
+# S125: Remove commented code
+# Reason: Too many false positives (comments with {, }, ++ etc)
+dotnet_diagnostic.S125.severity = none
+
+# CA5394: Random is insecure
+# Reason: Game logic, not crypto
+dotnet_diagnostic.CA5394.severity = none
+
+# CA1062: Validate arguments
+# Reason: Too pedantic for internal mod code
+dotnet_diagnostic.CA1062.severity = none
+
+# CA1031: Catch specific exceptions
+# Reason: Intentional for game stability
+dotnet_diagnostic.CA1031.severity = none
+
+# S1066: Merge if statements
+# Reason: Style choice, separate ifs can be clearer
+dotnet_diagnostic.S1066.severity = none
+
+# S3267: Simplify LINQ
+# Reason: Explicit loops can be clearer than LINQ
+dotnet_diagnostic.S3267.severity = none
+
+# S2933: Fields should be readonly
+# Reason: Many false positives with ECS patterns
+dotnet_diagnostic.S2933.severity = none
+
+# S127: Loop variable modified in body
+# Reason: Valid pattern in some algorithms
+dotnet_diagnostic.S127.severity = none
+
+# CA1002: Do not expose generic lists
+# Reason: Internal mod code, List<T> is fine
+dotnet_diagnostic.CA1002.severity = none
+
+# RCS1242: Do not pass non-read-only struct by readonly ref
+# Reason: Performance micro-optimization, not critical
+dotnet_diagnostic.RCS1242.severity = none
+
+# CA1051/S1104: Do not declare visible instance fields
+# Reason: Unity ECS requires public fields everywhere, not just Components
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.S1104.severity = none
+
+# CA1815: Override equals on value types
+# Reason: Not needed for ECS structs
+dotnet_diagnostic.CA1815.severity = none
+
+# CA1028: Enum storage should be Int32
+# Reason: byte enums are fine for ECS
+dotnet_diagnostic.CA1028.severity = none
+
+# CA1822/S2325: Member can be static
+# Reason: Many false positives in Unity patterns
+dotnet_diagnostic.CA1822.severity = none
+dotnet_diagnostic.S2325.severity = none
+
+# CA1859: Use concrete types for better performance
+# Reason: Interfaces are used for DI/testability
+dotnet_diagnostic.CA1859.severity = none
+
+# CA1816: Dispose methods should call SuppressFinalize
+# Reason: Most classes don't have finalizers
+dotnet_diagnostic.CA1816.severity = none
+
+# CA2000: Dispose objects before losing scope
+# Reason: False positive on EntityQueryBuilder fluent chains (struct + ref return).
+# Builder is always explicitly Dispose()d after Build(). CA2000 tracks the `new` expression
+# which gets copied through fluent calls — analyzer can't see it's the same allocation.
+dotnet_diagnostic.CA2000.severity = none
+
+# CA1846: Prefer AsSpan over Substring
+# Reason: .NET Framework 4.8 target — string.AsSpan() does not exist
+dotnet_diagnostic.CA1846.severity = none
+
+# ============================================
+# ECS Components - loose rules (Unity ECS requires public fields)
+# ============================================
+[**/Components/*.cs]
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.S1104.severity = none
+dotnet_diagnostic.CA1815.severity = none
+dotnet_diagnostic.CA1028.severity = none
+
+# ============================================
+# ECS Systems - loose rules for Unity patterns
+# ============================================
+[**/Systems/*.cs]
+dotnet_diagnostic.CA1822.severity = none
+dotnet_diagnostic.S2325.severity = none
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.S1104.severity = none
+
+# ============================================
+# Data/Types - loose rules for DTOs and value types
+# ============================================
+[**/Data/*.cs]
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.S1104.severity = none
+dotnet_diagnostic.CA1815.severity = none
+
+[**/Types/*.cs]
+dotnet_diagnostic.CA1051.severity = none
+dotnet_diagnostic.S1104.severity = none
+dotnet_diagnostic.CA1815.severity = none
+
+# ============================================
+# Domain DTOs - paired reason fields owned by DtoEligibilityGenerator partials
+# Reason: CS0282 fires because each *Dto.cs declares only the public-data half;
+# the eligibility-reason half lives in the generated partial. Order-of-fields
+# warnings are intentional file-wide. The codegen'd DomainDtoWriters.g.cs is
+# also a partial declaration site, and Roslyn attaches the warning to whichever
+# syntax ref sorts first — so the rule must cover the generated file too.
+# ============================================
+[**/Core/UI/DomainState/{*Dto.cs,DomainDtoWriters.g.cs}]
+dotnet_diagnostic.CS0282.severity = none
+
+# ============================================
+# DevTools - intentional magic numbers for wave/preset/AB-test values
+# Reason: CIVIC201 (magic numbers) is design-by-intent in dev-only inspectors;
+# numbers are exploratory and never persisted.
+# ============================================
+[**/Services/DevTools/*.cs]
+dotnet_diagnostic.CIVIC201.severity = none
+
+[*.cs]
+# ============================================
+# META WARNINGS - Analyzer infrastructure
+# ============================================
+# AD0001: Analyzer threw an exception
+dotnet_diagnostic.AD0001.severity = none
+# SA0001: XML comment parsing error
+dotnet_diagnostic.SA0001.severity = none
+
+# ============================================
+# STYLECOP ANALYZERS (SA*) - ALL DISABLED
+# Reason: Style rules, not bug detectors. C# 9 syntax conflicts.
+# ============================================
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.DocumentationRules.severity = none
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.LayoutRules.severity = none
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.MaintainabilityRules.severity = none
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.NamingRules.severity = none
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.OrderingRules.severity = none
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.ReadabilityRules.severity = none
+dotnet_analyzer_diagnostic.category-StyleCop.CSharp.SpacingRules.severity = none
+
+# ============================================
+# MEZIANTOU ANALYZER (MA*)
+# ============================================
+
+# MA0001: StringComparison should be specified
+# Reason: Game mod, not i18n critical
+dotnet_diagnostic.MA0001.severity = none
+
+# MA0002: IEqualityComparer<string> should be specified
+dotnet_diagnostic.MA0002.severity = none
+
+# MA0003: Add parameter name
+dotnet_diagnostic.MA0003.severity = none
+
+# MA0004: Use Task.ConfigureAwait(false)
+# Reason: Unity context, not ASP.NET
+dotnet_diagnostic.MA0004.severity = none
+
+# MA0006: Use String.Equals
+dotnet_diagnostic.MA0006.severity = suggestion
+
+# MA0007: Add comma after last value
+dotnet_diagnostic.MA0007.severity = none
+
+# MA0011: IFormatProvider is missing
+dotnet_diagnostic.MA0011.severity = none
+
+# MA0015: Specify the parameter name
+dotnet_diagnostic.MA0015.severity = none
+
+# MA0016: Prefer returning collection abstraction
+dotnet_diagnostic.MA0016.severity = none
+
+# MA0008: Add StructLayoutAttribute
+# Reason: Not critical for game mod structs
+dotnet_diagnostic.MA0008.severity = none
+
+# MA0018: Do not declare static members on generic types
+dotnet_diagnostic.MA0018.severity = suggestion
+
+# MA0025: Implement the functionality instead of throwing NotImplementedException
+dotnet_diagnostic.MA0025.severity = warning
+
+# MA0026: Fix TODO comment
+dotnet_diagnostic.MA0026.severity = suggestion
+
+# MA0028: Optimize StringBuilder usage
+dotnet_diagnostic.MA0028.severity = suggestion
+
+# MA0029: Combine LINQ methods
+dotnet_diagnostic.MA0029.severity = suggestion
+
+# MA0031: Optimize Enumerable.Count() usage
+dotnet_diagnostic.MA0031.severity = warning
+
+# MA0032: Use an overload with CancellationToken
+dotnet_diagnostic.MA0032.severity = none
+
+# MA0036: Make class static
+dotnet_diagnostic.MA0036.severity = suggestion
+
+# MA0038: Make method static
+dotnet_diagnostic.MA0038.severity = none
+
+# MA0040: Flow the cancellation token
+dotnet_diagnostic.MA0040.severity = none
+
+# MA0041: Make property static
+dotnet_diagnostic.MA0041.severity = none
+
+# MA0042: Do not use blocking calls
+dotnet_diagnostic.MA0042.severity = suggestion
+
+# MA0046: Use EventHandler<T>
+dotnet_diagnostic.MA0046.severity = suggestion
+
+# MA0048: File name must match type name
+# Reason: Style preference, multiple types per file is OK
+dotnet_diagnostic.MA0048.severity = none
+
+# MA0049: Type name should not match containing namespace
+dotnet_diagnostic.MA0049.severity = none
+
+# MA0051: Method is too long
+dotnet_diagnostic.MA0051.severity = suggestion
+
+# MA0053: Make class sealed
+dotnet_diagnostic.MA0053.severity = none
+
+# MA0055: Do not use finalizer
+dotnet_diagnostic.MA0055.severity = warning
+
+# MA0069: Non-constant static fields should not be visible
+dotnet_diagnostic.MA0069.severity = suggestion
+
+# MA0074: Use StringComparison overload
+# Reason: Game mod, not i18n critical
+dotnet_diagnostic.MA0074.severity = none
+
+# MA0076: Do not use implicit culture-sensitive ToString in interpolated strings
+dotnet_diagnostic.MA0076.severity = none
+
+# MA0099: Use explicit enum value instead of 0
+# Reason: Style preference
+dotnet_diagnostic.MA0099.severity = none
+
+# ============================================
+# IDISPOSABLE ANALYZERS (IDISP*)
+# ============================================
+
+# IDISP001: Dispose created
+dotnet_diagnostic.IDISP001.severity = warning
+
+# IDISP002: Dispose member
+dotnet_diagnostic.IDISP002.severity = warning
+
+# IDISP003: Dispose previous before re-assigning
+dotnet_diagnostic.IDISP003.severity = warning
+
+# IDISP004: Don't ignore return value of type IDisposable
+dotnet_diagnostic.IDISP004.severity = warning
+
+# IDISP005: Return type should indicate that the value should be disposed
+dotnet_diagnostic.IDISP005.severity = suggestion
+
+# IDISP006: Implement IDisposable
+dotnet_diagnostic.IDISP006.severity = warning
+
+# IDISP007: Don't dispose injected
+dotnet_diagnostic.IDISP007.severity = warning
+
+# IDISP008: Don't assign member with injected and created disposables
+dotnet_diagnostic.IDISP008.severity = warning
+
+# IDISP009: Add IDisposable interface
+dotnet_diagnostic.IDISP009.severity = suggestion
+
+# IDISP010: Call base.Dispose(disposing)
+dotnet_diagnostic.IDISP010.severity = warning
+
+# IDISP014: Use a single instance of HttpClient
+dotnet_diagnostic.IDISP014.severity = warning
+
+# IDISP017: Prefer using
+dotnet_diagnostic.IDISP017.severity = suggestion
+
+# ============================================
+# VS THREADING ANALYZERS (VSTHRD*)
+# ============================================
+
+# VSTHRD002: Avoid problematic synchronous waits
+dotnet_diagnostic.VSTHRD002.severity = warning
+
+# VSTHRD003: Avoid awaiting foreign Tasks
+dotnet_diagnostic.VSTHRD003.severity = suggestion
+
+# VSTHRD100: Avoid async void methods
+dotnet_diagnostic.VSTHRD100.severity = warning
+
+# VSTHRD101: Avoid unsupported async delegates
+dotnet_diagnostic.VSTHRD101.severity = warning
+
+# VSTHRD103: Call async methods when in an async method
+dotnet_diagnostic.VSTHRD103.severity = suggestion
+
+# VSTHRD110: Observe result of async calls
+dotnet_diagnostic.VSTHRD110.severity = warning
+
+# VSTHRD111: Use ConfigureAwait(bool)
+# Reason: Unity context
+dotnet_diagnostic.VSTHRD111.severity = none
+
+# VSTHRD200: Use Async suffix for async methods
+dotnet_diagnostic.VSTHRD200.severity = suggestion
+
+# ============================================
+# ERRORPRONE.NET (EPC/ERP*)
+# ============================================
+
+# EPC12: Suspicious exception handling (only ex.Message)
+# Critical places fixed to use full exception. Non-critical (Debug/Warn level) suppressed.
+dotnet_diagnostic.EPC12.severity = none
+
+# EPC13: Suspicious exception handling (re-throw loses stack trace)
+dotnet_diagnostic.EPC13.severity = warning
+
+# ERP021: Incorrect exception propagation
+dotnet_diagnostic.ERP021.severity = warning
+
+# ERP022: Unobserved exception in generic exception handler
+dotnet_diagnostic.ERP022.severity = suggestion
+
+# Unity.Logging source-generator output (obj/Generated/MainLoggingGenerator/*_Gen.cs).
+# Third-party generated code — not ours to lint; silence all analyzers on it.
+[*_Gen.cs]
+generated_code = true
+dotnet_analyzer_diagnostic.severity = none
