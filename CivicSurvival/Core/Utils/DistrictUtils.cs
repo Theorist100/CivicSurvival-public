@@ -31,8 +31,11 @@ namespace CivicSurvival.Core.Utils
         }
 
         private static string FormatFallbackDistrictName(int districtIndex)
-            => LocalizationManager.CurrentLocale == "uk-UA"
-                ? $"Район {districtIndex}"
-                : $"District {districtIndex}";
+            => LocalizationManager.CurrentLocale switch
+            {
+                "uk-UA" => $"Район {districtIndex}",
+                "zh-CN" => $"第 {districtIndex} 区",
+                _ => $"District {districtIndex}",
+            };
     }
 }

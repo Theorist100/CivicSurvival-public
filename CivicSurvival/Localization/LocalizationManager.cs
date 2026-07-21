@@ -35,6 +35,8 @@ namespace CivicSurvival.Localization
 
         public bool IsUkrainian => Locale == "uk-UA";
 
+        public bool IsChinese => Locale == "zh-CN";
+
         /// <summary>
         /// Group keys of the form &lt;prefix&gt;_&lt;n&gt; and record how many consecutive
         /// indices starting at 1 are present. Pure parsing of the already-loaded keys — no
@@ -115,7 +117,7 @@ namespace CivicSurvival.Localization
         /// </summary>
         public static readonly string[] SupportedLocales =
         {
-            "en-US", "uk-UA"
+            "en-US", "uk-UA", "zh-CN"
         };
 
         /// <summary>
@@ -129,6 +131,12 @@ namespace CivicSurvival.Localization
         /// Lock-free read.
         /// </summary>
         public static bool IsUkrainian => s_Context.IsUkrainian;
+
+        /// <summary>
+        /// Is Simplified Chinese locale active?
+        /// Lock-free read.
+        /// </summary>
+        public static bool IsChinese => s_Context.IsChinese;
 
         public static bool IsUncensoredBuild
         {
@@ -243,6 +251,9 @@ namespace CivicSurvival.Localization
         private static readonly Dictionary<string, string> s_EfficiencyFactorLabels = new()
         {
             ["uk-UA"] = "Виробіток мережі (пошкодження, паливо і попит)",
+            ["zh-HANS"] = "电网出力（损坏、燃料与需求）",
+            ["zh-CN"] = "电网出力（损坏、燃料与需求）",
+            ["zh-Hans-CN"] = "电网出力（损坏、燃料与需求）",
         };
 
         private static string GetEfficiencyFactorLabel(string localeId)
@@ -352,12 +363,17 @@ namespace CivicSurvival.Localization
                     var activeLocale = locManager.activeLocaleId;
                     Log.Info($"Detected game locale: {activeLocale}");
 
-                    // Map game locale to our supported locales (EN + UA only)
+                    // Map game locale to our supported locales
                     if (!string.IsNullOrEmpty(activeLocale))
                     {
                         if (activeLocale.Contains("uk", System.StringComparison.OrdinalIgnoreCase) ||
                             activeLocale.Contains("UA", System.StringComparison.Ordinal))
                             return ClampLocaleForBuild("uk-UA");
+
+                        if (activeLocale.Contains("zh", System.StringComparison.OrdinalIgnoreCase) ||
+                            activeLocale.Contains("HANS", System.StringComparison.OrdinalIgnoreCase) ||
+                            activeLocale.Contains("Hans", System.StringComparison.Ordinal))
+                            return "zh-CN";
                     }
                 }
             }
@@ -375,7 +391,9 @@ namespace CivicSurvival.Localization
         /// </summary>
         public static bool IsLanguageAvailable(ModLanguage language)
         {
-            if (language == ModLanguage.GameDefault || language == ModLanguage.English)
+            if (language == ModLanguage.GameDefault ||
+                language == ModLanguage.English ||
+                language == ModLanguage.Chinese)
                 return true;
 
 #if UNCENSORED
@@ -393,9 +411,9 @@ namespace CivicSurvival.Localization
             get
             {
 #if UNCENSORED
-                return "[0,1,2]";
+                return "[0,1,2,7]";
 #else
-                return "[0,1]";
+                return "[0,1,7]";
 #endif
             }
         }

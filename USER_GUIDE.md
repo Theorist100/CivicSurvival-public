@@ -258,13 +258,13 @@ Open settings from the top status bar. Notable options:
 
 ## Languages
 
-Civic Survival ships in **English and Ukrainian**.
+Civic Survival ships in **English**, **Ukrainian**, and **Simplified Chinese**.
 
 The mechanics are identical across languages; the storytelling differs. The **Ukrainian
 build** carries a realistic crisis context with localized satire (the "Power Company"
 becomes a real utility, "Emergency Shelter" becomes a resilience point, "incoming threat"
-becomes "Shaheds inbound"). The **English build** stays a neutral infrastructure simulation.
-The language you choose defines the experience.
+becomes "Shaheds inbound"). The **English** and **Simplified Chinese** builds stay a
+neutral infrastructure simulation. The language you choose defines the experience.
 
 ---
 

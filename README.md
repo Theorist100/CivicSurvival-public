@@ -28,16 +28,17 @@ feedback are hugely welcome.
 **Saves are not version-stable yet** — a save made in one version may not load after
 an update. Treat beta saves as disposable until v1.0.
 
-## One Mod, Two Experiences
+## One Mod, Multiple Locales
 
-| English | Українська |
-|---------|------------|
+| English / 简体中文 | Українська |
+|--------------------|------------|
 | Neutral infrastructure simulation | Реалістичний контекст кризи |
-| "Power Company" | "ДТЕК" |
-| "Emergency Shelter" | "Пункт Незламності" |
-| "Incoming threat" | "Шахеди на підльоті!" |
+| "Power Company" / 「电力公司」 | "ДТЕК" |
+| "Emergency Shelter" / 「应急避难所」 | "Пункт Незламності" |
+| "Incoming threat" / 「检测到来袭…」 | "Шахеди на підльоті!" |
 
-Same mechanics, different storytelling. The language you choose defines the experience.
+Same mechanics, different storytelling. English and Simplified Chinese share the neutral
+framing; Ukrainian uses a realistic crisis context. The language you choose defines the experience.
 
 ## Available Now
 

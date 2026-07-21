@@ -39,6 +39,7 @@ expecting it to be merged as-is.
 Translations are very welcome — the best way to contribute. The mod ships:
 - `CivicSurvival/Localization/en-US.json` — English (neutral)
 - `CivicSurvival/Localization/uk-UA.json` — Ukrainian (realistic crisis context)
+- `CivicSurvival/Localization/zh-CN.json` — Simplified Chinese (neutral)
 
 If you would like to add or improve a locale, reach out on
 [Discord](https://discord.gg/nhytdnKFeW) — translation contributions are handled there

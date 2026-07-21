@@ -67,6 +67,7 @@
     <ItemGroup>
         <EmbeddedResource Include="Localization\en-US.json" />
         <EmbeddedResource Include="Localization\uk-UA.json" />
+        <EmbeddedResource Include="Localization\zh-CN.json" />
     </ItemGroup>
 
     <!-- Game References (UPDATED WITH HINT PATHS FOR RIDER) -->
