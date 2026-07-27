@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Publish>
+  <ModId Value="147665" />
+  <DisplayName Value="Civic Survival [BETA]" />
+  <ShortDescription Value="Early beta: rolling blackouts, drone waves, air defense, mobilization, information war, corruption, diplomacy and shadow economy — keep your city alive under attack." />
+  <LongDescription>## Civic Survival — Early Public Beta
+
+Transform your city into an infrastructure survival challenge: keep the power grid alive, defend against drone and missile attacks, and mobilize your crews under pressure.
+
+### ⚠️ This is an early beta
+
+This is an early beta. Expect bugs and rough edges — some systems may not yet work the way you'd expect. Civic Survival is made by one person and AI: every single line of code in this mod is written by AI assistants — not one line was written by a human. I'm improving the mod actively, and bug reports and feedback are hugely welcome.
+
+### What's inside
+
+- **Threat waves** — Shahed drones and ballistic missiles attack in escalating waves, hunting your power plants, substations, and key buildings. Waves scale with your city, so the bigger you grow, the harder you are hit.
+- **War damage and fire** — Hits cause real destruction: buildings take damage, catch fire, and can be lost entirely. You rebuild and repair while still under attack.
+- **Air defense** — Place AA positions (Gepard, Bofors, Hawk, Patriot), crew them, and run an ammunition economy where every interception spends supply you must keep buying. Position and coverage decide what gets through.
+- **Rolling blackouts** — Power becomes something you ration. Schedule outages district by district (4 hours on, 4 off, daytime, manual) to stretch a failing grid and choose who goes dark when supply cannot meet demand.
+- **Backup power** — Keep critical buildings alive through outages and grid failure with generators and batteries.
+- **Mobilization** — Conscript manpower from your population to crew air defenses, weighed against the workforce your economy still needs.
+- **Spotters and intel** — Buy reconnaissance to see threats sooner, identify what is incoming, and react before impact.
+- **Information war** — Enemy psy raids (propaganda, rumors, fabricated videos) target your population by social class: draft evasion drains your manpower, fake sick-leave waves empty workplaces, panic buying hits commerce. Build the Propaganda Center, keep the city under telecom coverage, and put the right speaker on air to fight back.
+- **Economy and finance** — Pay for defenses, repairs, and relief from a strained wartime budget; overspend and debt and crisis costs spiral.
+- **Refugees** — Displaced households arrive during the crisis. Shelter them, integrate them into the city, and cover their support costs, or face a humanitarian failure.
+- **Corruption** — wartime money attracts schemes: kickbacks on procurement and repairs pile up quietly until investigators come knocking. Run counter-investigations and decide how dirty your survival gets.
+- **International diplomacy** — donor conferences provide funds, power and defense aid. How much they trust you depends on your corruption record; lose their trust and the aid dries up.
+- **Shadow economy** — fund the war off the books: shadow market deals, off-ledger cash and fast shadow repairs, all at the price of corruption exposure.
+- **Neighbor relations** — districts watch how their neighbors are rationed; unfair blackout schedules breed resentment.
+- **News and narrative** — A reactive news and narrative feed responds to your decisions and the state of the war as the city fights to survive.
+- **Tutorial** — Guided onboarding through the grid, threats, and defense loop.
+
+### In development
+
+Deeper counterattack progression and asynchronous PvP raids are in development and will ship in future updates.
+
+### ⚙️ Running other mods
+
+Civic Survival is a total overhaul: it runs its own simulation of power, economy, population, threats, and the narrative on top of the base game. Any mod that changes one of those same systems will override or fight Civic Survival's logic, so that part behaves wrong. Anything that does not touch those systems combines fine.
+
+**Safe to combine — Civic Survival does not simulate these:**
+
+- Traffic, roads, public transport, and pathfinding
+- Zoning, land value, and signature buildings
+- Visuals: graphics, lighting, LUTs, props, trees, and detailing
+- Maps and terrain
+- Audio — adds its own sounds but does not replace the base audio
+- Camera, screenshots, photo mode, and UI / quality-of-life tools (Move It, Find It, and similar)
+
+**Avoid — these are the systems Civic Survival simulates:**
+
+- Electricity and the power grid
+- Economy, money, and budget
+- Population, households, and migration
+- Citizen wellbeing, happiness, and city services
+- Buildings: damage, destruction, disasters, and hazards
+- Difficulty and game balance
+
+If a Civic Survival system behaves strangely, disable the mods that touch that system and reload. The in-game **Send mod list** button in the settings lets us check your setup.
+
+### 🔍 Known Issues
+
+⚠️ No air attacks after an update: in rare cases (~1-2% of installs) a mod update leaves the mod's model files incomplete on disk — the war never starts and no drones or missiles ever spawn, while the rest of the mod seems to work. The mod detects this on load and shows a repair dialog. If you see it (or your city is suspiciously never attacked): 1) unsubscribe from Civic Survival in Paradox Mods, 2) restart the game, 3) subscribe again, 4) restart once more. The dialog's "Send report" button helps us hunt down the root cause.
+
+🛑 Crashes have become rare; if you hit one, please report it on Discord with your save.
+
+🐢 Performance: Civic Survival adds a lot of simulation on top of the base game, so it runs best on a mid-range or better machine. Large cities and intense waves at high speed are the most demanding, and we keep optimizing every release. On lower-end setups (around 4 GB of VRAM), smaller cities and a slower game speed keep things smooth.
+
+### Help us improve — please keep telemetry on
+
+I'm a solo developer directing AI assistants over a large, brand-new, fully AI-written codebase. Anonymous telemetry is my main way to find bugs and balance problems, so if you'd like to help, please enable it in the mod settings.
+
+Telemetry is **opt-in and off by default**. When you turn it on, here is exactly what we collect:
+
+- An anonymous session / player ID — **no name, no email, no personal data**
+- Gameplay events: threat waves and intercepts, blackouts and grid state, mobilization, economy, scenario progress, and an end-of-session summary
+- Performance metrics (FPS, memory) sampled about once a minute
+- Crash reports
+- The names of the mods you have enabled — names only, read once per session, so a crash can be traced to a mod conflict
+- Mod and game version
+
+We never collect anything that identifies you personally. Leaving telemetry on directly helps us prioritize fixes.
+
+### Found a bug? Join our Discord
+
+The fastest way to report bugs, share feedback, and shape what gets fixed first: https://discord.gg/nhytdnKFeW (also available via the in-game Roadmap panel).
+
+### 💾 Save policy
+
+- **Not version-stable during the beta.** We **do not guarantee save compatibility between versions.** A save made in one version may fail to load or behave unexpectedly after an update. Treat beta saves as disposable until v1.0.
+- **Your saves depend on the mod.** Civic Survival is a full gameplay overhaul, not a tweak — your active crisis (threats, war damage, air defenses, grid and economy state) is stored inside the save. If you remove the mod, the city still loads as a plain vanilla save, but everything Civic Survival added is dropped. Keep the mod installed to keep playing a save you started with it.
+
+### Languages
+
+English, Ukrainian and Simplified Chinese. The Ukrainian build carries a realistic crisis context with localized satire; English stays a neutral infrastructure simulation, and Simplified Chinese follows the English one. The Chinese translation was contributed by ifloppy — thank you.
+
+*Inspired by real-world infrastructure resilience challenges.*</LongDescription>
+  <Thumbnail Value="Properties/thumbnail.png" />
+  <Screenshot Value="Properties/screenshots/screenshot_01.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_02.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_03.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_04.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_05.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_09.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_06.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_07.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_08.jpg" />
+  <Screenshot Value="Properties/screenshots/screenshot_10.jpg" />
+  <ModVersion Value="0.3.31" />
+  <GameVersion Value="*" />
+  <AccessLevel Value="Public" />
+  <Tag Value="Code Mod" />
+  <ChangeLog>- Numerous bugfixes.</ChangeLog>
+  <ExternalLink Type="github" Url="https://github.com/Theorist100/CivicSurvival-public" />
+  <ExternalLink Type="discord" Url="https://discord.gg/nhytdnKFeW" />
+</Publish>

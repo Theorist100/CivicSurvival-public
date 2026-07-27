@@ -1,0 +1,7 @@
+{
+    "name": "CivicSurvival",
+    "version_number": "1.0.0",
+    "website_url": "https://github.com/yourusername/CivicSurvival",
+    "description": "Infrastructure Crisis Simulator. Manage blackouts, batteries, and corruption while your city reacts.",
+    "dependencies": []
+}
